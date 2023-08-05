@@ -2,24 +2,66 @@ class CalcController {
 
     constructor(){
 
-        this._displayCalc = "0"
-        this._dataAtual 
+        this._locale = "pt-BR"
+        this._displayCalcEL =document.querySelector("#display");
+        this._dateEL = document.querySelector("#data");
+        this._timeEl = document.querySelector("#hora");
+        this._currentDate;
+        this.inicialize();
 
     }
 
-    get displayCalc(){
-        return this._displayCalc
+    inicialize(){
+
+        this.setDisplayDateTime();
+
+        setInterval(()=>{
+
+            this.setDisplayDateTime();
+
+        }, 1000)
+
     }
 
-    set displayCalc(valor){
-        this._displayCalc = valor
+    setDisplayDateTime(){
+        this.displayDate = this.currentDate.toLocaleDateString(this._locale, {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+
+        })
+        this.displayTime = this.currentDate.toLocaleTimeString(this._locale)
     }
 
-    get dataAtual(){
-        return this._dataAtual
+    get displayTime(){ //
+        return this._timeEl.innerHTML;
     }
 
-    set dataAtual(valor){
-        this._dataAtual = valor
+    set displayTime(value){
+        return this._timeEl.innerHTML = value;
+    }
+
+    get displayDate(){ //
+        return this._dateEL.innerHTML;
+    }
+
+    set displayDate(value){
+        return this._dateEL.innerHTML = value;
+    }
+
+    get displayCalc(){ //
+        return this._displayCalcEl.innerHTML;
+    }
+
+    set displayCalc(value){
+        this._displayCalcEl.innerHTML = value;
+    }
+
+    get currentDate(){ //
+        return new Date();
+    }
+
+    set currentDate(value){
+        this._currentDate = value;
     }
 }
