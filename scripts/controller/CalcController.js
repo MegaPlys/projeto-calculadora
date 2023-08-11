@@ -23,6 +23,8 @@ class CalcController {
 
         }, 1000)
 
+        this.setLastNumberToDisplay()
+
     }
 
     addEventListenerAll(element, events, fn){
@@ -39,11 +41,15 @@ class CalcController {
 
         this._operation = []
 
+        this.setLastNumberToDisplay()
+
     }
 
     clearEntry(){
 
         this._operation.pop()
+
+        this.setLastNumberToDisplay()
 
     }
 
@@ -78,17 +84,50 @@ class CalcController {
     }
     calc(){
 
-        let last = this._operation.pop()
+        let last = ''
 
+        if(this._operation.length > 3){
+            let last = this._operation.pop()
+
+        }
+        
         let result = eval(this._operation.join(""))
 
-        this._operation = [result, last]
+        if (last == '%'){
+
+            result/=100
+
+            this._operation[result]
+
+        } else {
+
+            this._operation = [result]
+
+            if (last) this._operation.push(last)
+
+        }
+
+        this.setLastNumberToDisplay()
 
     }
 
     setLastNumberToDisplay(){
 
-        //aqui é onde vem o 'for'
+       let lastNumber;
+
+       for(let i = this._operation.length-1; i >= 0; i--){
+
+            if (!this.isOperator(this._operation[i])){
+
+                lastNumber = this._operation[i]
+                break
+            }
+       }
+
+       if (!lastNumber) lastNumber = 0
+
+       this.displayCalc = lastNumber
+
     }
 
     addOperation(value){
@@ -109,7 +148,7 @@ class CalcController {
             } else {
 
                 this.pushOperation(value)
-
+                this.setLastNumberToDisplay()
             }
 
         } else {
@@ -170,7 +209,7 @@ class CalcController {
                 break
 
             case 'igual':
-                
+                this.calc()
                 break
 
             case 'ponto':
